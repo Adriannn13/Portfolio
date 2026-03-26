@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Security Logic | Adrian.Dev</title>
+    <link rel="icon" type="image/PNG" href="images/grad.PNG">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class' }</script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-[#fafafa] dark:bg-[#0a0a0a] text-[#1a1a1a] dark:text-gray-100 transition-colors duration-300">
+
+    <nav class="max-w-3xl mx-auto px-6 py-10 flex justify-between items-center">
+        <a href="blog.html" class="group flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">
+            <i data-lucide="arrow-left" size="18" class="group-hover:-translate-x-1 transition-transform"></i>
+            Back to Blog
+        </a>
+        <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-zinc-800">
+            <i data-lucide="sun" class="w-4 h-4 text-yellow-500 hidden dark:block"></i>
+            <i data-lucide="moon" class="w-4 h-4 text-blue-600 block dark:hidden"></i>
+        </button>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-6 pb-24">
+        <header class="space-y-4 mb-12">
+            <time class="text-xs font-black text-blue-600 uppercase tracking-[0.2em]">Backend & Security</time>
+            <h1 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">
+                Deep Dive: PHP & MySQL Security Logic
+            </h1>
+            <p class="text-lg text-gray-500 dark:text-gray-400 italic">"Trust no user input."</p>
+        </header>
+
+        <article class="prose prose-zinc dark:prose-invert max-w-none space-y-8">
+            
+            <section>
+                <h2 class="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tighter mb-4">What I Did</h2>
+                <p class="leading-relaxed text-gray-600 dark:text-gray-400">
+                    While working on my OJT Monitoring System, I realized that just because an app works doesn’t mean it’s secure. So instead of using standard queries, I switched to prepared statements using PDO throughout the system. This helps prevent SQL injection by keeping the query structure separate from the actual data being entered.
+                </p>
+                
+                <div class="my-6 p-6 bg-zinc-900 rounded-2xl border border-zinc-800 overflow-x-auto">
+                    <code class="text-blue-400 text-sm">
+                        $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');<br>
+                        $stmt->execute(['email' => $userEmail]);<br>
+                        $user = $stmt->fetch();
+                    </code>
+                    <p class="text-[10px] text-zinc-500 mt-3 uppercase tracking-widest font-bold">Example of my PDO implementation</p>
+                </div>
+
+                <p class="leading-relaxed text-gray-600 dark:text-gray-400">
+                    I also focused on credential safety. Instead of storing plain text (a huge red flag), I utilized <code>password_hash()</code> with the BCRYPT algorithm. For the admin dashboard, I built a custom session-checking middleware that validates user roles before rendering any sensitive data.
+                </p>
+            </section>
+
+            <section class="bg-red-50 dark:bg-red-900/10 p-8 rounded-3xl border border-red-100 dark:border-red-900/30">
+                <h2 class="text-xl font-black text-red-900 dark:text-red-400 uppercase tracking-tighter mb-3">Key Insight</h2>
+                <p class="text-red-800/80 dark:text-red-300/80 leading-relaxed font-medium">
+                    Backend development is 20% building features and 80% protecting them. Learning to think like a "breaker" helped me become a much better "maker." If you don't sanitize your inputs, you're essentially leaving your front door wide open.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tighter mb-4">The Result</h2>
+                <p class="leading-relaxed text-gray-600 dark:text-gray-400">
+                    By focusing on security from the very beginning, the OJT Portal became more than just a school project—it turned into a system people can trust. It taught me that as a developer, my main responsibility is to protect the user’s data and keep it safe.
+                </p>
+            </section>
+        </article>
+
+        <footer class="mt-20 pt-10 border-t border-gray-100 dark:border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <img src="images/profile.jpg" class="w-12 h-12 rounded-full border border-gray-200 dark:border-zinc-800">
+                <div>
+                    <p class="text-sm font-bold dark:text-white">Adrian Cerenado</p>
+                    <p class="text-xs text-gray-500 uppercase">Junior Developer</p>
+                </div>
+            </div>
+            <a href="blog.html" class="px-6 py-3 border border-gray-200 dark:border-zinc-700 text-xs font-black uppercase tracking-widest rounded-full hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all">
+                More Articles
+            </a>
+        </footer>
+    </main>
+
+    <script>
+        // Use the same theme logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        }
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+        lucide.createIcons();
+    </script>
+</body>
+</html>

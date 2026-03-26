@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="light"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ed's Blog Thoughts | Adrian Cerenado</title>
+    <link rel="icon" type="image/PNG" href="images/grad.PNG">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-[#fafafa] dark:bg-[#0a0a0a] text-[#1a1a1a] dark:text-gray-100 transition-colors duration-300">
+
+    <nav class="max-w-3xl mx-auto px-6 py-10 flex justify-between items-center">
+        <a href="index.html" class="group flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">
+            <i data-lucide="arrow-left" size="18" class="group-hover:-translate-x-1 transition-transform"></i>
+            Back to Portfolio
+        </a>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-6 pt-16 pb-24 space-y-16">
+        
+        <header>
+            <h1 class="text-4xl font-black text-gray-900 dark:text-white leading-tight">Ed's Blog Thoughts</h1>
+            <p class="mt-4 text-base leading-relaxed text-gray-600 dark:text-gray-400">
+                Hi, I'm Adrian Cerenado, just call me ed... This is where I share my thoughts on UI design, the logic behind full-stack PHP, and the new things I learn as a Junior Developer. Enjoy reading!
+            </p>
+        </header>
+
+        <section class="space-y-10">
+            
+            <article class="p-6 bg-white dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-zinc-800 shadow-sm transition-all hover:border-blue-500 group">
+                <time class="text-xs font-black text-blue-600 uppercase tracking-widest">Feb 15, 2026</time>
+                <h2 class="mt-2 text-2xl font-black text-gray-900 dark:text-white tracking-tight leading-tight">How I Built My Portfolio: Lessons on Minimalism</h2>
+                <p class="mt-3 text-sm leading-relaxed text-gray-600 dark:text-gray-400">This is a closer look at the “less is more” approach. I talk about how I chose the color palette, organized the content, and why I used Tailwind CSS to make the design process faster and easier to control.</p>
+                <div class="mt-5 flex items-center justify-between text-xs text-gray-500">
+                    <span class="font-bold">4 min read</span>
+                    <a href="post-portfolio.html" class="flex items-center gap-1.5 font-black text-blue-600 hover:text-blue-700 uppercase tracking-tighter">
+                        Read full post
+                        <i data-lucide="arrow-right" size="14" class="group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="p-6 bg-white dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-zinc-800 shadow-sm transition-all hover:border-blue-500 group">
+                <time class="text-xs font-bold text-gray-400 uppercase tracking-widest">Feb 20, 2026</time>
+                <h2 class="mt-2 text-2xl font-black text-gray-900 dark:text-white tracking-tight leading-tight">PHP Security: A Beginner's Guide to Keeping Your Application Safe</h2>
+                <p class="mt-3 text-sm leading-relaxed text-gray-600 dark:text-gray-400">Security should never be something you think about last. I explain how to prevent SQL injection, properly clean and validate data, and set up a secure contact form to help keep user information safe.</p>
+                <div class="mt-5 flex items-center justify-between text-xs text-gray-500">
+                    <span class="font-bold">7 min read</span>
+                    <a href="post-php-security.html" class="flex items-center gap-1.5 font-black text-blue-600 hover:text-blue-700 uppercase tracking-tighter">
+                        Read full post
+                        <i data-lucide="arrow-right" size="14" class="group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="p-6 bg-white dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-zinc-800 shadow-sm transition-all hover:border-blue-500 group">
+                <time class="text-xs font-bold text-gray-400 uppercase tracking-widest">Feb 25, 2026</time>
+                <h2 class="mt-2 text-2xl font-black text-gray-900 dark:text-white tracking-tight leading-tight">Transitioning from Student to Junior Developer</h2>
+                <p class="mt-3 text-sm leading-relaxed text-gray-600 dark:text-gray-400">Making the leap from student to junior developer can be daunting. I share my journey, the challenges I faced, and the strategies that helped me succeed in my first role.</p>
+                <div class="mt-5 flex items-center justify-between text-xs text-gray-500">
+                    <span class="font-bold">3 min read</span>
+                    <a href="post-junior-dev.html" class="flex items-center gap-1.5 font-black text-blue-600 hover:text-blue-700 uppercase tracking-tighter">
+                        Read full post
+                        <i data-lucide="arrow-right" size="14" class="group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </article>
+
+        </section>
+
+        <footer class="border-t border-gray-100 dark:border-zinc-800 pt-8 mt-16 text-center text-xs text-gray-500">
+            <p>&copy; 2026 Adrian Cerenado. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Use the SAME theme logic as your portfolio
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+
+        // Initialize Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
