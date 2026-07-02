@@ -17,9 +17,57 @@
     </script>
     <link rel="stylesheet" href="portfolio-design.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Interactive Card Custom Hover Effects */
+        .interactive-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .interactive-card:hover {
+            transform: translateY(-5px) scale(1.008);
+            box-shadow: 0 20px 40px -15px rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.4) !important;
+        }
+        .dark .interactive-card:hover {
+            box-shadow: 0 20px 40px -15px rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.4) !important;
+        }
+
+        /* Custom Scrollbar for Chat Messages */
+        #chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        #chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.3);
+            border-radius: 9999px;
+        }
+        .dark #chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(75, 85, 99, 0.5);
+        }
+
+        /* Infinite Marquee Slideshow Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-104rem); } /* 8 slides (12rem/w-48 each) + 8 gaps (1rem/gap-4 each) = 104rem offset */
+        }
+        .animate-marquee {
+            display: flex;
+            animation: marquee 30s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+    </style>
 </head>
 
 <body class="bg-[#fafafa] dark:bg-[#0a0a0a] text-[#1a1a1a] dark:text-gray-100 selection:bg-blue-100 transition-colors duration-300">
+
+    <!-- Moving Background Canvas -->
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none -z-10"></canvas>
 
     <header class="max-w-5xl mx-auto px-6 pt-24 pb-16 relative">
         <div class="flex flex-col md:flex-row items-start justify-start gap-8 text-left">
@@ -29,16 +77,26 @@
             </div>
             
             <div class="space-y-2 w-full">
-                <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center flex-wrap gap-4">
                     <h1 class="text-2xl md:text-3xl font-black tracking-tight text-gray-900 dark:text-white leading-tight">Adrian Cerenado</h1>
-                    <div class="flex items-center gap-3">
-                        <span class="text-[10px] font-black uppercase tracking-tighter text-gray-400">Theme</span>
-                        <button id="theme-toggle" class="relative inline-flex h-6 w-11 rounded-full bg-gray-200 dark:bg-zinc-700 transition-colors">
-                            <span id="toggle-dot" class="absolute left-0.5 top-0.5 h-5 w-5 transform rounded-full bg-white shadow transition-transform dark:translate-x-5 flex items-center justify-center">
-                                <i data-lucide="sun" class="w-3 h-3 text-yellow-500 hidden dark:block"></i>
-                                <i data-lucide="moon" class="w-3 h-3 text-blue-600 block dark:hidden"></i>
-                            </span>
-                        </button>
+                    
+                    <div class="flex items-center gap-4">
+                        <!-- View and Download CV Button -->
+                        <a href="cv/CV.pdf" target="_blank" class="flex items-center gap-2 px-4 py-2 text-[10px] font-black uppercase tracking-tighter bg-blue-600 hover:bg-blue-500 dark:bg-zinc-850 dark:hover:bg-zinc-800 text-white rounded-xl shadow-md transition-all hover:scale-105 active:scale-95 duration-200">
+                            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                            <span>View CV</span>
+                        </a>
+
+                        <!-- Enhanced Theme Toggle -->
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10px] font-black uppercase tracking-tighter text-gray-400">Theme</span>
+                            <button id="theme-toggle" class="relative inline-flex h-6 w-11 rounded-full bg-gray-200 dark:bg-zinc-700 border border-gray-300/35 dark:border-zinc-800/40 transition-colors shadow-inner">
+                                <span id="toggle-dot" class="absolute left-0.5 top-0.5 h-5 w-5 transform rounded-full bg-white shadow-md transition-transform dark:translate-x-5 flex items-center justify-center">
+                                    <i data-lucide="sun" class="w-3 h-3 text-yellow-500 hidden dark:block"></i>
+                                    <i data-lucide="moon" class="w-3 h-3 text-blue-600 block dark:hidden"></i>
+                                </span>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <p class="text-xs font-bold text-blue-600 uppercase tracking-[0.2em]">Junior Developer / UI Designer</p>
@@ -73,24 +131,26 @@
     </header>
 
     <main class="max-w-5xl mx-auto px-6 space-y-12 pb-24">
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-gray-100 dark:border-zinc-800 shadow-sm items-center">
+        <!-- Interactive Card: About Me -->
+        <section class="interactive-card grid grid-cols-1 lg:grid-cols-3 gap-8 bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-gray-100 dark:border-zinc-800 shadow-sm items-center">
             <div class="lg:col-span-2 space-y-4">
                 <div class="flex items-center gap-3 mb-6">
                     <i data-lucide="user" size="20"></i>
                     <h2 class="text-xl font-black dark:text-white uppercase tracking-tighter">About Me</h2>
                 </div>
                 <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                    I build clean, functional web applications. Currently refining my skills in full-stack development with a focus on minimalist UI and efficient PHP/MySQL logic.
+                    I design and develop clean, high-performance web applications. Currently refining my skills in full-stack engineering with an emphasis on creating minimalist user experiences backed by robust, secure PHP/MySQL database architecture.
                 </p>
                 <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                    During my recent projects—including the development of an automated OJT Tracking Portal—I have focused on bridging the gap between backend efficiency and frontend aesthetics. I don't just write code; I aim to create systems that provide meaningful data and a seamless experience for every user who interacts with them.
+                    Through hands-on projects, such as building an automated OJT Tracking Portal and dealership costing systems, I've bridged the gap between clean frontend layouts and scalable database design. I don't just write code; I construct complete digital workflows that deliver accurate reporting and frictionless user journeys.
                 </p>
                 <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                    Moving Forward, I am eager to contribute to the company’s goals by applying my skills, staying proactive, and continuously learning. I am willing to collaborate with the team, take on responsibilities, and deliver quality work.
+                    Driven by curiosity and a commitment to quality, I am eager to collaborate with development teams, tackle challenging projects, and deliver clean, production-ready code that drives real business value.
                 </p>
             </div>
 
-            <div class="relative w-full max-w-[280px] mx-auto aspect-[3/4] bg-gradient-to-br from-zinc-800 to-black rounded-3xl p-6 shadow-2xl border border-zinc-700/50 flex flex-col justify-between overflow-hidden group">
+            <!-- Interactive Card: Telegram Card -->
+            <div class="interactive-card relative w-full max-w-[280px] mx-auto aspect-[3/4] bg-gradient-to-br from-zinc-800 to-black rounded-3xl p-6 shadow-2xl border border-zinc-700/50 flex flex-col justify-between overflow-hidden group">
                 <div class="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 blur-[80px] group-hover:bg-blue-500/20 transition-colors"></div>
         
                 <div class="space-y-4 relative z-10">
@@ -118,7 +178,8 @@
         </section>
 
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-gray-100 dark:border-zinc-800 shadow-sm">
+            <!-- Interactive Card: Education -->
+            <div class="interactive-card bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-gray-100 dark:border-zinc-800 shadow-sm">
                 <div class="flex items-center gap-3 mb-8">
                     <i data-lucide="graduation-cap" size="20"></i>
                     <h2 class="text-xl font-black dark:text-white uppercase tracking-tighter">Education</h2>
@@ -154,32 +215,33 @@
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-gray-100 dark:border-zinc-800 shadow-sm">
+            <!-- Interactive Card: Tech Stack -->
+            <div class="interactive-card bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-gray-100 dark:border-zinc-800 shadow-sm">
                 <div class="flex items-center gap-3 mb-8">
                     <i data-lucide="code-2" size="20"></i>
                     <h2 class="text-xl font-black dark:text-white uppercase tracking-tighter">Tech Stack</h2>
                 </div>
                 <div class="space-y-6">
                     <div>
-                        <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Front End</h3>
+                        <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-450 mb-3">Front End</h3>
                         <div class="flex flex-wrap gap-2">
                             <span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>React.js</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>JavaScript</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>Tailwind</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>HTML5</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>CSS3</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>Figma</span>
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Back End</h3>
+                        <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-450 mb-3">Back End</h3>
                         <div class="flex flex-wrap gap-2">
-                            <span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>PHP</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>Laravel</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>MySQL</span>
+                            <span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>PHP</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-850/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>Laravel</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>MySQL</span>
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Tools</h3>
+                        <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-450 mb-3">Tools</h3>
                         <div class="flex flex-wrap gap-2">
                             <span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>VS Code</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>Postman</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>Composer</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>XAMPP</span>
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Networking & Hardware</h3>
+                        <h3 class="text-[10px] font-black uppercase tracking-widest text-gray-450 mb-3">Networking & Hardware</h3>
                         <div class="flex flex-wrap gap-2">
                             <span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>Basic Networking</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>RJ45 Crimping</span><span class='px-3 py-1 text-xs font-bold border border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-colors cursor-default'>Computer Assembly</span>
                         </div>
@@ -191,7 +253,8 @@
         <section class="p-4">
             <h2 class="text-xl font-black mb-8 dark:text-white uppercase tracking-tighter">Recent Projects</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="relative group overflow-hidden rounded-2xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                <!-- Interactive Card: Project 1 -->
+                <div class="interactive-card relative group overflow-hidden rounded-2xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
                     <img src="images/newdashboard.jpg" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
 
                     <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-center items-center p-4 text-center">
@@ -211,7 +274,8 @@
                         <a href="images/newprofile.jpg" class="glightbox hidden" data-gallery="gallery-OJTMonitoringSystem"></a>
                     </div>
                 </div>
-                <div class="relative group overflow-hidden rounded-2xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                <!-- Interactive Card: Project 2 -->
+                <div class="interactive-card relative group overflow-hidden rounded-2xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
                     <img src="images-med/dashb.jpg" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
 
                     <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-center items-center p-4 text-center">
@@ -231,10 +295,11 @@
                         <a href="images-med/doc.jpg" class="glightbox hidden" data-gallery="gallery-MedischedDesign"></a>
                     </div>
                 </div>
-                <div class="relative group overflow-hidden rounded-2xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                <!-- Interactive Card: Project 3 -->
+                <div class="interactive-card relative group overflow-hidden rounded-2xl border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
                     <img src="images/landing-page.jpg" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
 
-                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-center items-center p-4 text-center">
+                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-350 flex flex-col justify-center items-center p-4 text-center">
                         <h3 class="text-white font-bold mb-1">SysProTech Website</h3>
                         <p class="text-[10px] text-gray-300 uppercase tracking-widest mb-4">Build to provide services to the outdated system transforming it into a modern and automated system solutions.</p>
 
@@ -268,15 +333,87 @@
             lucide.createIcons();
         </script>
 
+        <!-- Personal Gallery Section -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-black dark:text-white uppercase tracking-tighter">Life & Gallery</h2>
+            
+            <!-- Infinite Moving Carousel Wrapper -->
+            <div class="relative w-full overflow-hidden py-4">
+                <!-- Fade Gradients at the edges for premium look -->
+                <div class="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#fafafa] dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#fafafa] dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none"></div>
+
+                <!-- Infinite Scrolling Slides -->
+                <div class="flex gap-4 animate-marquee whitespace-nowrap">
+                    <!-- Slide 1 -->
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/a.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/d.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/r.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/i.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/ai.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Slide 6 -->
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/n.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Slide 7 -->
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/e.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    
+            
+                    <!-- Repeat the same 8 slides to make the marquee infinite & smooth -->
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/a.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/d.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/r.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/i.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/ai.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/n.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-shrink-0 w-48 h-48 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-zinc-800 shadow-sm hover:scale-105 transition-all duration-300">
+                        <img src="images/e.jpg" alt="Gallery Image" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-gray-100 dark:border-zinc-800">
+            <!-- Interactive Card: Capstone Project -->
+            <div class="interactive-card bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-gray-100 dark:border-zinc-800 shadow-sm">
                 <h2 class="text-xl font-black mb-6 dark:text-white uppercase tracking-tighter">Capstone Project</h2>
                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Car Marketplace with Costing system - Dr. Filemon C. Aguilar Memorial College of Las pinas -IT</p>
                 <p class="text-blue-600 text-xs italic mb-2">2025-2026</p>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Developed a comprehensive car marketplace with a costing system including the key features such as financial analytics, cost module, profit margin calculation and automated cost computation based on the expenses.</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Engineered a feature-rich automotive commerce ecosystem integrated with real-time financial tracking. Key features include automated margin computations, precise expense auditing, profit analysis panels, and full pricing lifecycle modeling designed to optimize car dealership operations.
+                </p>
             </div>
 
-            <div class="bg-black text-white p-8 rounded-[2.5rem] relative group overflow-hidden border border-zinc-800 shadow-2xl">
+            <!-- Interactive Card: Contact -->
+            <div class="interactive-card bg-black text-white p-8 rounded-[2.5rem] relative group overflow-hidden border border-zinc-800 shadow-2xl">
                 <h2 class="font-bold uppercase tracking-wider text-blue-400 text-xs">Contact</h2>
                 <p class="text-3xl font-black mt-2">Let's work together.</p>
                 <div class="mt-8 flex gap-4">
@@ -290,6 +427,54 @@
             <p>&copy; 2026 Adrian Cerenado. All rights reserved.</p>
         </footer>
     </main>
+
+    <!-- Floating Chatbot Widget Container -->
+    <div id="chatbot-container" class="fixed bottom-6 right-6 z-50 flex flex-col items-end font-sans">
+        <!-- Chat Window -->
+        <div id="chat-window" class="hidden w-[350px] max-w-[calc(100vw-2rem)] h-[480px] bg-white dark:bg-zinc-950 rounded-3xl border border-gray-200 dark:border-zinc-800 shadow-2xl flex flex-col overflow-hidden mb-4 transition-all duration-300 transform scale-95 opacity-0 origin-bottom-right">
+            <!-- Chat Window Header -->
+            <div class="p-4 bg-gradient-to-r from-blue-600 to-indigo-650 dark:from-zinc-900 dark:to-zinc-850 text-white flex items-center justify-between shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="relative w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm">
+                        Ed
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-indigo-600 dark:border-zinc-900"></span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm leading-none">Ed</h4>
+                        <p class="text-[9px] text-blue-200 mt-1">Adrian's Assistant</p>
+                    </div>
+                </div>
+                <button id="close-chat" class="hover:bg-white/10 p-1.5 rounded-lg transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <!-- Chat Messages Log -->
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3 bg-gray-50/50 dark:bg-zinc-950">
+                <!-- Programmatic content loaded via JS -->
+            </div>
+            <!-- Chat Quick Action Suggestions -->
+            <div id="chat-suggestions" class="p-3 bg-white dark:bg-zinc-900 border-t border-gray-150 dark:border-zinc-800 flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+                <button class="suggestion-btn px-2.5 py-1 text-xs bg-gray-50 hover:bg-blue-50 dark:bg-zinc-800 dark:hover:bg-zinc-700/50 text-gray-600 dark:text-gray-300 rounded-full border border-gray-150 dark:border-zinc-800 transition-colors" data-question="Who is Adrian?">Who is Adrian?</button>
+                <button class="suggestion-btn px-2.5 py-1 text-xs bg-gray-50 hover:bg-blue-50 dark:bg-zinc-800 dark:hover:bg-zinc-700/50 text-gray-600 dark:text-gray-300 rounded-full border border-gray-150 dark:border-zinc-800 transition-colors" data-question="What are his skills?">Tech Stack</button>
+                <button class="suggestion-btn px-2.5 py-1 text-xs bg-gray-50 hover:bg-blue-50 dark:bg-zinc-800 dark:hover:bg-zinc-700/50 text-gray-600 dark:text-gray-300 rounded-full border border-gray-150 dark:border-zinc-800 transition-colors" data-question="Tell me about the Capstone Project">Capstone Project</button>
+                <button class="suggestion-btn px-2.5 py-1 text-xs bg-gray-50 hover:bg-blue-50 dark:bg-zinc-800 dark:hover:bg-zinc-700/50 text-gray-600 dark:text-gray-300 rounded-full border border-gray-150 dark:border-zinc-800 transition-colors" data-question="How can I contact Adrian?">Contact Info</button>
+            </div>
+            <!-- Chat Form Input -->
+            <form id="chat-form" class="p-3 border-t border-gray-150 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex gap-2">
+                <input type="text" id="chat-input" placeholder="Type a message..." class="flex-1 px-4 py-2 text-sm bg-gray-50 dark:bg-zinc-800 border border-gray-150 dark:border-zinc-800 rounded-xl focus:outline-none focus:border-blue-500 dark:text-white" required>
+                <button type="submit" class="p-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-all">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Chat Toggle Floating Trigger Icon -->
+        <button id="chat-toggle" class="relative w-14 h-14 bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-all">
+            <i id="chat-icon-open" data-lucide="message-square" class="w-6 h-6"></i>
+            <i id="chat-icon-close" data-lucide="x" class="w-6 h-6 hidden"></i>
+            <span id="chat-badge" class="absolute -top-1 -right-1 w-4.5 h-4.5 bg-red-500 rounded-full text-[9px] font-bold flex items-center justify-center border-2 border-white dark:border-[#0a0a0a] hidden">1</span>
+        </button>
+    </div>
 
     <script>
         // Theme Logic
@@ -310,6 +495,322 @@
             navigator.clipboard.writeText("adriancerenado2@gmail.com");
             alert("Email copied!");
         }
+
+        // ==========================================
+        // CONSTELLATION / PARTICLE WEB CANVAS BG LOGIC
+        // ==========================================
+        (function() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+
+            let particles = [];
+            let mouse = { x: null, y: null, radius: 150 };
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initParticles();
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.4;
+                    this.vy = (Math.random() - 0.5) * 0.4;
+                    this.radius = Math.random() * 1.5 + 1;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // Screen Wrap limits
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                    if (this.y > canvas.height) this.y = 0;
+
+                    // Interactive Gravity toward cursor
+                    if (mouse.x !== null && mouse.y !== null) {
+                        let dx = mouse.x - this.x;
+                        let dy = mouse.y - this.y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < mouse.radius) {
+                            const force = (mouse.radius - dist) / mouse.radius;
+                            this.x -= dx * force * 0.02;
+                            this.y -= dy * force * 0.02;
+                        }
+                    }
+                }
+                draw(color, glowColor) {
+                    // Outer glow
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
+                    ctx.fillStyle = glowColor;
+                    ctx.fill();
+
+                    // Core point
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = color;
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                // Dynamic density based on screen size (max 110 dots)
+                const density = Math.min(110, Math.floor((canvas.width * canvas.height) / 12000));
+                for (let i = 0; i < density; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+            window.addEventListener('mouseleave', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                const isDark = document.documentElement.classList.contains('dark');
+                
+                // Color palettes
+                // Dark mode: Red/Crimson theme matching the user's reference image
+                // Light mode: Clean Blue/Indigo theme
+                const particleColor = isDark ? 'rgba(239, 68, 68, 0.5)' : 'rgba(59, 130, 246, 0.4)';
+                const glowColor = isDark ? 'rgba(239, 68, 68, 0.12)' : 'rgba(59, 130, 246, 0.08)';
+
+                particles.forEach(p => {
+                    p.update();
+                    p.draw(particleColor, glowColor);
+                });
+
+                // Connect nodes that are close to each other
+                const maxDist = 120;
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < maxDist) {
+                            const alpha = (1 - dist / maxDist);
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = isDark 
+                                ? `rgba(239, 68, 68, ${alpha * 0.15})` 
+                                : `rgba(59, 130, 246, ${alpha * 0.12})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                // Connect nodes to mouse cursor
+                if (mouse.x !== null && mouse.y !== null) {
+                    particles.forEach(p => {
+                        const dx = p.x - mouse.x;
+                        const dy = p.y - mouse.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < mouse.radius) {
+                            const alpha = (1 - dist / mouse.radius);
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(mouse.x, mouse.y);
+                            ctx.strokeStyle = isDark 
+                                ? `rgba(239, 68, 68, ${alpha * 0.2})` 
+                                : `rgba(59, 130, 246, ${alpha * 0.15})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.stroke();
+                        }
+                    });
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            animate();
+        })();
+
+        // ==========================================
+        // PORTFOLIO AI CHATBOT LOGIC (ED)
+        // ==========================================
+        (function() {
+            const chatToggle = document.getElementById('chat-toggle');
+            const chatWindow = document.getElementById('chat-window');
+            const closeChat = document.getElementById('close-chat');
+            const chatIconOpen = document.getElementById('chat-icon-open');
+            const chatIconClose = document.getElementById('chat-icon-close');
+            const chatBadge = document.getElementById('chat-badge');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatForm = document.getElementById('chat-form');
+            const chatInput = document.getElementById('chat-input');
+            const suggestionBtns = document.querySelectorAll('.suggestion-btn');
+
+            let isChatOpen = false;
+            let hasGreeted = false;
+
+            // Toggle Chat Box visibility
+            function toggleChat() {
+                isChatOpen = !isChatOpen;
+                if (isChatOpen) {
+                    chatWindow.classList.remove('hidden');
+                    // Force DOM recalculation for animations
+                    chatWindow.offsetHeight;
+                    chatWindow.classList.remove('scale-95', 'opacity-0');
+                    chatWindow.classList.add('scale-100', 'opacity-100');
+                    chatIconOpen.classList.add('hidden');
+                    chatIconClose.classList.remove('hidden');
+                    chatBadge.classList.add('hidden'); // Clear badge counter
+                    
+                    if (!hasGreeted) {
+                        triggerGreeting();
+                    }
+                } else {
+                    chatWindow.classList.remove('scale-100', 'opacity-100');
+                    chatWindow.classList.add('scale-95', 'opacity-0');
+                    chatIconOpen.classList.remove('hidden');
+                    chatIconClose.classList.add('hidden');
+                    setTimeout(() => {
+                        if (!isChatOpen) chatWindow.classList.add('hidden');
+                    }, 300);
+                }
+            }
+
+            chatToggle.addEventListener('click', toggleChat);
+            closeChat.addEventListener('click', toggleChat);
+
+            // Append floating bounce bubble typing indicators
+            function createTypingIndicator() {
+                const indicator = document.createElement('div');
+                indicator.id = 'typing-indicator';
+                indicator.className = 'flex items-center gap-1.5 self-start bg-gray-100 dark:bg-zinc-800 text-gray-500 rounded-2xl px-4 py-2.5 max-w-[80%] rounded-bl-none';
+                indicator.innerHTML = `
+                    <span class="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0s"></span>
+                    <span class="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
+                    <span class="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
+                `;
+                chatMessages.appendChild(indicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                return indicator;
+            }
+
+            function removeTypingIndicator() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) {
+                    indicator.remove();
+                }
+            }
+
+            // Append dialog bubble text
+            function appendMessage(text, sender) {
+                const bubble = document.createElement('div');
+                bubble.className = `max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-line leading-relaxed ${
+                    sender === 'user' 
+                        ? 'self-end bg-blue-600 text-white rounded-br-none' 
+                        : 'self-start bg-gray-100 dark:bg-zinc-800 text-gray-800 dark:text-gray-200 rounded-bl-none'
+                }`;
+                bubble.innerText = text;
+                chatMessages.appendChild(bubble);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Knowledgebase response presets
+            const responses = {
+                greeting: "Hi there! I'm Ed, Adrian's virtual assistant. Ask me anything about Adrian's experience, capstone project, tech stack, or how to contact him!",
+                skills: "Adrian is a full-stack developer with these key skills:\n\n• Front End: React.js, JavaScript, Tailwind CSS, HTML5, CSS3, Figma\n• Back End: PHP, Laravel, MySQL\n• Tools: VS Code, Postman, Composer, XAMPP\n• Other: Basic Networking, Hardware Assembly.",
+                capstone: "His Capstone Project (2025-2026) is a Car Marketplace with an integrated Costing System. It features financial analytics, expense-based automated cost computations, profit margin modeling, and complete marketplace dynamics.",
+                education: "Adrian is currently studying:\n\n• Dr. Filemon C. Aguilar Memorial College (2022 - Present): BS in Information Systems.\n• Paranaque National High School - Main (Graduated 2021): SHS Humanities & Social Sciences.",
+                contact: "You can reach Adrian here:\n\n• Email: adriancerenado2@gmail.com\n• Facebook: Adrian Cerenado\n• GitHub: github.com/Adriannn13\n\nOr click the social links in his portfolio headers!",
+                about: "Adrian is a passionate Junior Developer and UI Designer based in Paranaque City, Metro Manila. He loves building clean, minimalist interfaces combined with solid backend logic (like PHP & Laravel).",
+                default: "Thanks for asking! I can tell you about Adrian's 'skills', 'capstone project', 'education', 'contact details', or 'who is Adrian'. What would you like to know?"
+            };
+
+            // Intent Classifier matching keywords
+            function getResponse(message) {
+                const msg = message.toLowerCase();
+                if (msg.includes('hi') || msg.includes('hello') || msg.includes('hey') || msg.includes('ed')) {
+                    return responses.greeting;
+                }
+                if (msg.includes('skill') || msg.includes('stack') || msg.includes('tech') || msg.includes('languages') || msg.includes('framework')) {
+                    return responses.skills;
+                }
+                if (msg.includes('capstone') || msg.includes('car') || msg.includes('costing') || msg.includes('marketplace')) {
+                    return responses.capstone;
+                }
+                if (msg.includes('education') || msg.includes('college') || msg.includes('school') || msg.includes('study') || msg.includes('pnhs')) {
+                    return responses.education;
+                }
+                if (msg.includes('contact') || msg.includes('email') || msg.includes('facebook') || msg.includes('github') || msg.includes('reach')) {
+                    return responses.contact;
+                }
+                if (msg.includes('about') || msg.includes('who is') || msg.includes('adrian') || msg.includes('profile')) {
+                    return responses.about;
+                }
+                return responses.default;
+            }
+
+            // Simulate realistic typing speed (characters count delay)
+            function botReply(text) {
+                createTypingIndicator();
+                
+                // 15ms per character, bound between 700ms and 2000ms
+                const delay = Math.max(700, Math.min(2000, text.length * 15));
+                
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    appendMessage(text, 'bot');
+                }, delay);
+            }
+
+            function triggerGreeting() {
+                hasGreeted = true;
+                botReply(responses.greeting);
+            }
+
+            // Input form submit
+            chatForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                appendMessage(text, 'user');
+                chatInput.value = '';
+
+                const reply = getResponse(text);
+                botReply(reply);
+            });
+
+            // Quick Suggestions Buttons
+            suggestionBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const question = btn.getAttribute('data-question');
+                    appendMessage(question, 'user');
+                    
+                    const reply = getResponse(question);
+                    botReply(reply);
+                });
+            });
+
+            // Trigger notification badge alert after 1.5 seconds
+            setTimeout(() => {
+                if (!isChatOpen) {
+                    chatBadge.innerText = "1";
+                    chatBadge.classList.remove('hidden');
+                }
+            }, 1500);
+
+        })();
     </script>
 </body>
 </html>
+```
