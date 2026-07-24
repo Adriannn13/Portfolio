@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" class="light"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificates & Badges | Adrian Cerenado</title>
+
+    <link rel="icon" type="image/PNG" href="images/profile.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link rel="stylesheet" href="portfolio-design.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-[#fafafa] dark:bg-[#0a0a0a] text-[#1a1a1a] dark:text-gray-100 selection:bg-blue-100 transition-colors duration-300">
+    
+    <!-- Moving Background Canvas -->
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none -z-10"></canvas>
+
+    <nav class="max-w-4xl mx-auto px-6 py-10 flex justify-between items-center">
+        <a href="index.html" class="group flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-black dark:hover:text-white transition-colors">
+            <i data-lucide="arrow-left" size="18" class="group-hover:-translate-x-1 transition-transform"></i>
+            Back to Portfolio
+        </a>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="relative inline-flex h-6 w-11 rounded-full bg-gray-200 dark:bg-zinc-800 border border-gray-300/35 dark:border-zinc-800/40 transition-colors shadow-inner">
+            <span id="toggle-dot" class="absolute left-0.5 top-0.5 h-5 w-5 transform rounded-full bg-white shadow-md transition-transform dark:translate-x-5 flex items-center justify-center">
+                <i data-lucide="sun" class="w-3 h-3 text-yellow-500 hidden dark:block"></i>
+                <i data-lucide="moon" class="w-3 h-3 text-blue-600 block dark:hidden"></i>
+            </span>
+        </button>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 pt-6 pb-24 space-y-12">
+        
+        <header class="space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 text-xs font-bold uppercase tracking-widest text-gray-700 dark:text-gray-300">
+                <i data-lucide="award" size="14"></i>
+                Official Credentials
+            </div>
+            <h1 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">
+                Certificate and Badge with Skills Acquired
+            </h1>
+            <p class="text-base leading-relaxed text-gray-600 dark:text-gray-400">
+                Welcome to my verified certifications showcase. Below are official badges issued through Credly, representing verified expertise in IT infrastructure, networking, software design, and digital solutions.
+            </p>
+        </header>
+
+        <!-- Verified Badges Showcase -->
+        <section class="space-y-8">
+            <div class="flex items-center justify-between border-b border-gray-200 dark:border-zinc-800 pb-4">
+                <h2 class="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tight">Verified Credly Badges</h2>
+                <span class="text-xs font-bold text-gray-500 dark:text-gray-400">3 Badges Earned</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Badge Link Card 1 -->
+                <a href="https://www.credly.com/badges/1b7066d0-7e88-4aac-87d8-bd1d2e42bbd9/public_url" target="_blank" rel="noopener noreferrer" class="p-6 bg-white dark:bg-black rounded-3xl border border-gray-200 dark:border-zinc-800 shadow-sm hover:border-black dark:hover:border-white transition-all flex flex-col justify-between space-y-6 group hover:-translate-y-1">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 flex items-center justify-center text-black dark:text-white group-hover:scale-110 transition-transform">
+                            <i data-lucide="shield-check" size="24"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Credly Verified Badge</span>
+                            <h3 class="font-bold text-base text-gray-900 dark:text-white mt-1 group-hover:text-black dark:group-hover:text-white transition-colors">Verified Credential 01</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">View official certification details, issuer info, and skills acquired on Credly.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-zinc-900 text-xs font-bold text-black dark:text-white">
+                        <span>View Badge on Credly</span>
+                        <i data-lucide="external-link" size="14" class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                    </div>
+                </a>
+
+                <!-- Badge Link Card 2 -->
+                <a href="https://www.credly.com/badges/d1031735-676a-4590-a80f-225dae6cd0cf/public_url" target="_blank" rel="noopener noreferrer" class="p-6 bg-white dark:bg-black rounded-3xl border border-gray-200 dark:border-zinc-800 shadow-sm hover:border-black dark:hover:border-white transition-all flex flex-col justify-between space-y-6 group hover:-translate-y-1">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 flex items-center justify-center text-black dark:text-white group-hover:scale-110 transition-transform">
+                            <i data-lucide="award" size="24"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Credly Verified Badge</span>
+                            <h3 class="font-bold text-base text-gray-900 dark:text-white mt-1 group-hover:text-black dark:group-hover:text-white transition-colors">Verified Credential 02</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">View official certification details, issuer info, and skills acquired on Credly.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-zinc-900 text-xs font-bold text-black dark:text-white">
+                        <span>View Badge on Credly</span>
+                        <i data-lucide="external-link" size="14" class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                    </div>
+                </a>
+
+                <!-- Badge Link Card 3 -->
+                <a href="https://www.credly.com/badges/5205d5fa-f446-41cf-974d-632f6b74fa28/public_url" target="_blank" rel="noopener noreferrer" class="p-6 bg-white dark:bg-black rounded-3xl border border-gray-200 dark:border-zinc-800 shadow-sm hover:border-black dark:hover:border-white transition-all flex flex-col justify-between space-y-6 group hover:-translate-y-1">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 flex items-center justify-center text-black dark:text-white group-hover:scale-110 transition-transform">
+                            <i data-lucide="check-circle-2" size="24"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Credly Verified Badge</span>
+                            <h3 class="font-bold text-base text-gray-900 dark:text-white mt-1 group-hover:text-black dark:group-hover:text-white transition-colors">Verified Credential 03</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">View official certification details, issuer info, and skills acquired on Credly.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-zinc-900 text-xs font-bold text-black dark:text-white">
+                        <span>View Badge on Credly</span>
+                        <i data-lucide="external-link" size="14" class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Detailed Skills Acquired Section -->
+        <section class="space-y-6 pt-4">
+            <div class="border-b border-gray-200 dark:border-zinc-800 pb-4">
+                <h2 class="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tight">Skills & Competencies Acquired</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 bg-white dark:bg-black rounded-3xl border border-gray-200 dark:border-zinc-800 space-y-3">
+                    <div class="flex items-center gap-3 text-black dark:text-white font-bold">
+                        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                        <span>IT Systems & Infrastructure</span>
+                    </div>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Demonstrated ability in managing IT hardware, network cable termination (RJ45), PC configuration, workstation troubleshooting, and server deployment environment setups.
+                    </p>
+                </div>
+
+                <div class="p-6 bg-white dark:bg-black rounded-3xl border border-gray-200 dark:border-zinc-800 space-y-3">
+                    <div class="flex items-center gap-3 text-black dark:text-white font-bold">
+                        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                        <span>Web Development & Database Security</span>
+                    </div>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Proficiency in developing full-stack applications with PHP, Laravel, MySQL, and modern frontend frameworks like React.js & Tailwind CSS. Focus on SQL injection prevention and clean architecture.
+                    </p>
+                </div>
+
+                <div class="p-6 bg-white dark:bg-black rounded-3xl border border-gray-200 dark:border-zinc-800 space-y-3">
+                    <div class="flex items-center gap-3 text-black dark:text-white font-bold">
+                        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                        <span>UI/UX & Minimalist Product Design</span>
+                    </div>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Crafting intuitive, responsive user experiences with modern aesthetics, dark/light themes, smooth visual hierarchy, and clean accessibility practices.
+                    </p>
+                </div>
+
+                <div class="p-6 bg-white dark:bg-black rounded-3xl border border-gray-200 dark:border-zinc-800 space-y-3">
+                    <div class="flex items-center gap-3 text-black dark:text-white font-bold">
+                        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                        <span>Costing & Business Logic Systems</span>
+                    </div>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Building complex analytical tools such as car costing platforms, profit margin calculators, and automated OJT tracking applications tailored for end users.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="border-t border-gray-200 dark:border-zinc-800 pt-8 text-center text-xs text-gray-500">
+            <p>&copy; 2026 Adrian Cerenado. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                html.classList.toggle('dark');
+                localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+            });
+        }
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Background Canvas Animation
+        (function() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initParticles();
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.3;
+                    this.vy = (Math.random() - 0.5) * 0.3;
+                    this.radius = Math.random() * 1.5 + 1;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                    if (this.y > canvas.height) this.y = 0;
+                }
+                draw(color) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = color;
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                const density = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+                for (let i = 0; i < density; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const isDark = document.documentElement.classList.contains('dark');
+                const particleColor = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.12)';
+
+                particles.forEach(p => {
+                    p.update();
+                    p.draw(particleColor);
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            animate();
+        })();
+    </script>
+</body>
+</html>
