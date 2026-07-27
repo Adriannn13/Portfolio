@@ -752,7 +752,6 @@
             // ==========================================
             // GROQ AI POWERED PORTFOLIO ASSISTANT (ED)
             // ==========================================
-            const GROQ_API_KEY = "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";
             const GROQ_MODEL = "llama-3.3-70b-versatile";
 
             const SYSTEM_PROMPT = `You are Ed, the friendly, intelligent, and professional AI virtual assistant for Adrian Cerenado's personal portfolio.
@@ -822,11 +821,10 @@ YOUR BEHAVIOR & GUIDELINES:
                 ];
 
                 try {
-                    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    const response = await fetch("api/chat", {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${GROQ_API_KEY}`
+                            "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
                             model: GROQ_MODEL,
@@ -837,23 +835,30 @@ YOUR BEHAVIOR & GUIDELINES:
                     });
 
                     removeTypingIndicator();
+                    const data = await response.json();
 
                     if (!response.ok) {
-                        throw new Error(`API response error ${response.status}`);
+                        throw new Error(data.error || `API response error ${response.status}`);
                     }
 
-                    const data = await response.json();
                     const aiReply = data.choices?.[0]?.message?.content || getFallbackResponse(userMessage);
 
                     chatHistory.push({ role: "assistant", content: aiReply });
                     appendMessage(aiReply, 'bot');
 
                 } catch (error) {
-                    console.warn("Groq API fallback:", error);
+                    console.warn("Groq API error:", error);
                     removeTypingIndicator();
-                    const fallbackReply = getFallbackResponse(userMessage);
-                    chatHistory.push({ role: "assistant", content: fallbackReply });
-                    appendMessage(fallbackReply, 'bot');
+                    
+                    let replyMessage = "";
+                    if (error.message && error.message.includes("limit")) {
+                        replyMessage = error.message;
+                    } else {
+                        replyMessage = getFallbackResponse(userMessage);
+                    }
+                    
+                    chatHistory.push({ role: "assistant", content: replyMessage });
+                    appendMessage(replyMessage, 'bot');
                 }
             }
 
