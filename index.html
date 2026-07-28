@@ -81,22 +81,21 @@
                     <h1 class="text-2xl md:text-3xl font-black tracking-tight text-gray-900 dark:text-white leading-tight">Adrian Cerenado</h1>
                     
                     <div class="flex items-center gap-4">
-                        <!-- View and Download CV Button -->
-                        <a href="cv/CV.pdf" target="_blank" class="flex items-center gap-2 px-4 py-2 text-[10px] font-black uppercase tracking-tighter bg-blue-600 hover:bg-blue-500 dark:bg-zinc-850 dark:hover:bg-zinc-800 text-white rounded-xl shadow-md transition-all hover:scale-105 active:scale-95 duration-200">
-                            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                            <span>View CV</span>
-                        </a>
+                        <!-- Minimalist Rectangular Theme Toggle -->
+                        <button id="theme-toggle" aria-label="Toggle Theme" class="group relative inline-flex items-center p-1 rounded-xl bg-gray-200/70 dark:bg-zinc-900 border border-gray-300/60 dark:border-zinc-800 shadow-inner cursor-pointer transition-all duration-300 hover:border-gray-400 dark:hover:border-zinc-700 active:scale-95">
+                            <!-- Rectangular active highlight slider -->
+                            <div class="absolute left-1 top-1 w-7 h-7 rounded-lg bg-white dark:bg-zinc-800 shadow-md border border-gray-200/80 dark:border-zinc-700/80 transition-transform duration-300 ease-out dark:translate-x-7"></div>
+                            
+                            <!-- Light Mode Icon (Sun) -->
+                            <span class="relative z-10 flex items-center justify-center w-7 h-7 transition-colors">
+                                <i data-lucide="sun" class="w-4 h-4 text-amber-500 dark:text-zinc-500 group-hover:scale-110 transition-transform"></i>
+                            </span>
 
-                        <!-- Enhanced Theme Toggle -->
-                        <div class="flex items-center gap-3">
-                            <span class="text-[10px] font-black uppercase tracking-tighter text-gray-400">Theme</span>
-                            <button id="theme-toggle" class="relative inline-flex h-6 w-11 rounded-full bg-gray-200 dark:bg-zinc-700 border border-gray-300/35 dark:border-zinc-800/40 transition-colors shadow-inner">
-                                <span id="toggle-dot" class="absolute left-0.5 top-0.5 h-5 w-5 transform rounded-full bg-white shadow-md transition-transform dark:translate-x-5 flex items-center justify-center">
-                                    <i data-lucide="sun" class="w-3 h-3 text-yellow-500 hidden dark:block"></i>
-                                    <i data-lucide="moon" class="w-3 h-3 text-blue-600 block dark:hidden"></i>
-                                </span>
-                            </button>
-                        </div>
+                            <!-- Dark Mode Icon (Moon) -->
+                            <span class="relative z-10 flex items-center justify-center w-7 h-7 transition-colors">
+                                <i data-lucide="moon" class="w-4 h-4 text-gray-400 dark:text-blue-400 group-hover:scale-110 transition-transform"></i>
+                            </span>
+                        </button>
                     </div>
                 </div>
                 <p class="text-xs font-bold text-blue-600 uppercase tracking-[0.2em]">Junior Developer / IT Specialist</p>

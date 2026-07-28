@@ -24,6 +24,22 @@
             <i data-lucide="arrow-left" size="18" class="group-hover:-translate-x-1 transition-transform"></i>
             Back to Portfolio
         </a>
+
+        <!-- Minimalist Rectangular Theme Toggle -->
+        <button id="theme-toggle" aria-label="Toggle Theme" class="group relative inline-flex items-center p-1 rounded-xl bg-gray-200/70 dark:bg-zinc-900 border border-gray-300/60 dark:border-zinc-800 shadow-inner cursor-pointer transition-all duration-300 hover:border-gray-400 dark:hover:border-zinc-700 active:scale-95">
+            <!-- Rectangular active highlight slider -->
+            <div class="absolute left-1 top-1 w-7 h-7 rounded-lg bg-white dark:bg-zinc-800 shadow-md border border-gray-200/80 dark:border-zinc-700/80 transition-transform duration-300 ease-out dark:translate-x-7"></div>
+            
+            <!-- Light Mode Icon (Sun) -->
+            <span class="relative z-10 flex items-center justify-center w-7 h-7 transition-colors">
+                <i data-lucide="sun" class="w-4 h-4 text-amber-500 dark:text-zinc-500 group-hover:scale-110 transition-transform"></i>
+            </span>
+
+            <!-- Dark Mode Icon (Moon) -->
+            <span class="relative z-10 flex items-center justify-center w-7 h-7 transition-colors">
+                <i data-lucide="moon" class="w-4 h-4 text-gray-400 dark:text-blue-400 group-hover:scale-110 transition-transform"></i>
+            </span>
+        </button>
     </nav>
 
     <main class="max-w-3xl mx-auto px-6 pt-16 pb-24 space-y-16">
